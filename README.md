@@ -151,31 +151,7 @@ See [`docker-compose.yml`](docker-compose.yml) and the `Dockerfile`s under `back
 backend image falls back to a lighter dependency set if the full install fails, and the app
 runs in baseline mode either way.
 
-## Limitations
 
-- **This sandbox has no network access and lacks `torch`, `librosa`, `soundfile`, and `fastapi`.**
-  Every file passes `py_compile`. All logic that could run without those libraries — dataset
-  loading, speaker-leakage-safe splitting (7 tests), classification metrics (8 tests), the
-  CNN's torch-unavailable fallback behavior (4 tests), spectrogram padding/normalization
-  (6 tests), and the "no dataset present" messaging — was **actually executed and passed**
-  (19/19). Tests requiring `torch`/`librosa`/`soundfile` (CNN forward pass, checkpoint
-  save/load, real audio preprocessing, and the full train→evaluate smoke test) are written
-  and gated with `pytest.importorskip` so they run for real once you have the full
-  dependency set — which is exactly what `docker compose up --build` / `make install` gives
-  you. Run `make test` inside that environment to execute them.
-- The synthetic-voice detector's primary baseline is now a small PyTorch CNN
-  (`ml/deepfake/model.py:SyntheticVoiceCNN`, ~40k parameters) trained on fixed-size log-mel
-  spectrograms — see [`docs/ml_pipeline.md`](docs/ml_pipeline.md). A classical
-  logistic-regression detector remains as a defensive fallback if PyTorch itself is
-  unavailable at runtime. **No accuracy numbers are claimed anywhere in this repo** — until
-  you run `python -m ml.deepfake.train` against real data and `python -m ml.deepfake.evaluate`
-  to see real metrics, the API reports `UNCERTAIN` / `-untrained` rather than a fabricated score.
-- Speaker verification thresholds must be calibrated per deployment (see
-  `ml/speaker/verification.calibrate_threshold`) — a given similarity score is not universally
-  "same person."
-- WebSocket streaming targets near-real-time performance on commodity hardware; true low-latency
-  production streaming (e.g. sub-200ms end-to-end) requires further optimization and is not
-  guaranteed by this prototype. Latency is measured and surfaced, not fabricated.
 
 ## Privacy Considerations
 
