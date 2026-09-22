@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Env / secrets
+.env
+*.env.local
+
+# Datasets & model artifacts (never commit raw audio or large weights)
+datasets/real/*
+datasets/synthetic/*
+!datasets/real/.gitkeep
+!datasets/synthetic/.gitkeep
+ml_artifacts/
+*.pkl
+*.pt
+*.ckpt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
