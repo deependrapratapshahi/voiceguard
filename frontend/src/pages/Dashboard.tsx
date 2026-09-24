@@ -34,8 +34,8 @@ export default function Dashboard() {
         <StatCard label="Total Calls Logged" value={calls.length} />
         <StatCard
           label="Backend Status"
-          value={health ? health.status.toUpperCase() : "Checking..."}
-          accent={health?.status === "ok" ? "text-risklow" : "text-slate-400"}
+          value={health?.status?.toUpperCase() ?? "CHECKING..."}
+          accent={health?.status === "ok" ? "text-risk-low" : "text-slate-400"}
         />
       </div>
 
