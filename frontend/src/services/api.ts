@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Alert, Call, HealthStatus, ModelInfo, RiskSnapshot } from "../types";
 
-const client = axios.create({ baseURL: "/api/v1" });
+const client = axios.create({ baseURL: "https://voiceguard-frontend-19k5.onrender.com/" });
 
 // If the backend is unreachable (wrong proxy, CORS, etc.) some servers
 // respond with an HTML error page instead of JSON. Guard against that
